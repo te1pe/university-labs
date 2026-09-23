@@ -1,0 +1,21 @@
+[Unit]
+Description=Flask Highload App
+After=network.target
+
+[Service]
+Type=simple
+User=flaskapp
+Group=flaskapp
+WorkingDirectory=/opt/flaskapp
+Environment="DB_HOST=127.0.0.1"
+Environment="DB_PORT=6033"
+Environment="DB_USER=app"
+Environment="DB_PASSWORD=app_pass"
+Environment="DB_NAME=highload_test"
+ExecStart=/usr/local/bin/gunicorn --bind 0.0.0.0:5000 --workers 4 --access-logfile - app:app
+Restart=always
+RestartSec=5
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=multi-user.target

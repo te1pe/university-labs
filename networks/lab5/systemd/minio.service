@@ -1,0 +1,20 @@
+[Unit]
+Description=MinIO Distributed Storage
+Documentation=https://docs.min.io
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=notify
+User=minio
+Group=minio
+EnvironmentFile=/etc/default/minio
+ExecStart=/usr/local/bin/minio server --certs-dir /etc/minio/certs $MINIO_OPTS $MINIO_VOLUMES
+Restart=always
+RestartSec=5
+LimitNOFILE=65536
+TasksMax=infinity
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target

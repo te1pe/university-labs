@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${title}">ОСТРИЁ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="icon" type="image/svg+xml" th:href="@{/favicon.svg}"/>
+</head>
+<body>
+
+<!-- ============ ШАПКА ============ -->
+<header th:fragment="header(active)">
+    <div class="wrap nav">
+        <a class="brand" th:href="@{/}">
+            <span class="mark">О</span>
+            <span class="name">ОСТРИЁ</span>
+        </a>
+        <nav class="links">
+            <a class="navlink" th:href="@{/}"
+               th:classappend="${active == 'home'} ? 'active'">Главная</a>
+            <a class="navlink" th:href="@{/services}"
+               th:classappend="${active == 'services'} ? 'active'">Услуги</a>
+
+            <th:block th:if="${currentUser != null}">
+                <a class="navlink" th:href="@{/cabinet}"
+                   th:classappend="${active == 'account'} ? 'active'">Личный кабинет</a>
+                <form class="logout-form" th:action="@{/logout}" method="post">
+                    <button type="submit" class="exit">Выйти</button>
+                </form>
+            </th:block>
+
+            <a class="navlink exit" th:if="${currentUser == null}"
+               th:href="@{/login}">Вход</a>
+        </nav>
+    </div>
+</header>
+
+<!-- ============ ПОДВАЛ С КОНТАКТАМИ ============ -->
+<footer th:fragment="contacts">
+    <div class="wrap">
+        <div class="foot-grid">
+            <div>
+                <h2>ОСТРИЁ</h2>
+                <p class="f-lead">Барбершоп в центре Академгородка. Классические стрижки,
+                    бритьё и уход за бородой от мастеров своего дела.</p>
+            </div>
+            <div class="f-col">
+                <h4>Адрес</h4>
+                <p>ул. Пирогова 1</p>
+                <p>Новосибирск</p>
+                <h4 style="margin-top:24px">Часы работы</h4>
+                <p>Пн–Пт 10:00–22:00</p>
+                <p>Сб–Вс 11:00–21:00</p>
+            </div>
+            <div class="f-col">
+                <h4>Связь</h4>
+                <p><a href="tel:+74951234567">+7 495 123-45-67</a></p>
+                <p><a href="mailto:hello@ostrie.ru">hello@ostrie.ru</a></p>
+            </div>
+        </div>
+        <div class="f-bot">
+            <span>© 2026 ОСТРИЁ. Все права защищены.</span>
+            <a class="btn" th:href="@{/booking}" style="color:#1C1915;background:#E9E3D6;border-color:#E9E3D6">
+                Записаться <span class="arr">→</span>
+            </a>
+        </div>
+    </div>
+</footer>
+
+<!-- ============ КОРОТКИЙ ПОДВАЛ ============ -->
+<footer th:fragment="footerSmall">
+    <div class="wrap">
+        <div class="f-bot" style="margin-top:0;border-top:0;padding-top:0">
+            <span>© 2026 ОСТРИЁ. Все права защищены.</span>
+            <a class="btn" th:href="@{/booking}" style="color:#1C1915;background:#E9E3D6;border-color:#E9E3D6">
+                Записаться <span class="arr">→</span>
+            </a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

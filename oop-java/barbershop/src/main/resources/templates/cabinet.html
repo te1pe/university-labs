@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{fragments/fragments :: head('Личный кабинет — ОСТРИЁ')}"></head>
+<body>
+
+<header th:replace="~{fragments/fragments :: header('account')}"></header>
+
+<section class="lk-head">
+    <div class="wrap">
+        <p class="eyebrow">Личный кабинет</p>
+        <h1>Здравствуйте, <span th:text="${firstName}">гость</span></h1>
+        <p class="sub">Здесь ваши записи и личные данные.</p>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="appts">Записи</button>
+            <button class="tab" data-tab="profile">Профиль</button>
+        </div>
+    </div>
+</section>
+
+<!-- ВКЛАДКА: ЗАПИСИ -->
+<div class="tab-panel show" id="panel-appts">
+    <div class="wrap">
+        <div th:if="${appts.isEmpty()}" class="empty-state">
+            <p>Пока нет записей.</p>
+            <a class="btn" th:href="@{/booking}">Записаться <span class="arr">→</span></a>
+        </div>
+
+        <div th:unless="${appts.isEmpty()}">
+            <div class="appt" th:each="a : ${appts}">
+                <div class="date">
+                    <div class="d" th:text="${a.day}">01</div>
+                    <div class="m" th:text="${a.month}">янв</div>
+                    <div class="t" th:text="${a.time}">10:00</div>
+                </div>
+                <div>
+                    <div class="nm" th:text="${a.serviceName}">Услуга</div>
+                    <div class="meta">Мастер <span th:text="${a.masterName}">—</span></div>
+                </div>
+                <span class="status" th:classappend="${a.statusClass}"
+                      th:text="${a.statusLabel}">Подтверждена</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ВКЛАДКА: ПРОФИЛЬ -->
+<div class="tab-panel" id="panel-profile">
+    <div class="wrap">
+        <div class="prof">
+            <div class="prof-card">
+                <div class="avatar" th:text="${initials}">ИС</div>
+                <div class="pname" th:text="${currentUser.fullName}">Имя</div>
+                <div class="pmail" th:text="${memberSince}">с янв 2026</div>
+            </div>
+            <div>
+                <div class="field-row">
+                    <div class="field">
+                        <label>Имя</label>
+                        <div class="val" th:text="${currentUser.fullName}">—</div>
+                    </div>
+                    <div class="field">
+                        <label>Телефон</label>
+                        <div class="val" th:text="${currentUser.phone}">—</div>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field">
+                        <label>E-mail</label>
+                        <div class="val" th:text="${currentUser.email}">—</div>
+                    </div>
+                    <div class="field">
+                        <label>Всего визитов</label>
+                        <div class="val" th:text="${visits}">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/fragments :: contacts}"></footer>
+
+<script th:inline="none">
+    document.querySelectorAll('.tab').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.tab').forEach(function (b) { b.classList.remove('active'); });
+            document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.remove('show'); });
+            btn.classList.add('active');
+            document.getElementById('panel-' + btn.dataset.tab).classList.add('show');
+        });
+    });
+</script>
+
+</body>
+</html>

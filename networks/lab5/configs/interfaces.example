@@ -1,0 +1,14 @@
+# /etc/network/interfaces — пример для node3
+# на node1 address 192.168.64.11, на node2 — 192.168.64.12
+
+source /etc/network/interfaces.d/*
+
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+    address 192.168.64.13
+    netmask 255.255.255.0
+    gateway 192.168.64.1
+    dns-nameservers 192.168.64.1 8.8.8.8

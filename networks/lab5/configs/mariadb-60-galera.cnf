@@ -1,0 +1,33 @@
+# /etc/mysql/mariadb.conf.d/60-galera.cnf
+# wsrep_node_address и wsrep_node_name подставляются на каждой ноде:
+#   NODE_IP=$(ip -4 -br addr show eth0 | awk '{print $3}' | cut -d/ -f1)
+#   NODE_NAME=$(hostname)
+
+[galera]
+# Mandatory settings
+wsrep_on=ON
+wsrep_provider=/usr/lib/galera/libgalera_smm.so
+wsrep_cluster_name="highload_galera"
+wsrep_cluster_address="gcomm://192.168.64.11,192.168.64.12,192.168.64.13"
+wsrep_node_address="${NODE_IP}"
+wsrep_node_name="${NODE_NAME}"
+
+# Galera Synchronization Configuration
+wsrep_sst_method=rsync
+
+# Galera tuning
+wsrep_slave_threads=4
+wsrep_provider_options="gcache.size=128M; gcache.page_size=128M"
+wsrep_retry_autocommit=3
+
+# InnoDB settings for Galera
+default_storage_engine=InnoDB
+innodb_autoinc_lock_mode=2
+innodb_flush_log_at_trx_commit=2
+innodb_buffer_pool_size=256M
+
+# Bind to all interfaces
+bind-address=0.0.0.0
+
+# Performance
+max_connections=500

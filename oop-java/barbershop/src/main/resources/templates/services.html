@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{fragments/fragments :: head('Услуги и цены — ОСТРИЁ')}"></head>
+<body>
+
+<header th:replace="~{fragments/fragments :: header('services')}"></header>
+
+<section class="hero" style="padding:74px 0 40px">
+    <div class="wrap">
+        <p class="eyebrow">Прайс-лист</p>
+        <h1 style="font-size:clamp(40px,6vw,68px)">Услуги и цены</h1>
+        <p class="sub">Выберите услугу и запишитесь к свободному мастеру.</p>
+    </div>
+</section>
+
+<section class="block" style="padding-top:20px">
+    <div class="wrap">
+        <div class="svc-list">
+            <div class="svc" th:each="s : ${services}">
+                <div class="nm" th:text="${s.name}">Услуга</div>
+                <div class="desc" th:text="${s.description}">Описание</div>
+                <div class="price">
+                    от <span th:text="${#numbers.formatInteger(s.priceRub, 1, 'WHITESPACE')}">0</span>
+                    <small>₽</small>
+                </div>
+                <a class="svc-book" th:href="@{/booking(service=${s.id})}">Записаться →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/fragments :: contacts}"></footer>
+
+</body>
+</html>

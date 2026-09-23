@@ -1,0 +1,4 @@
+127.0.0.1       localhost
+192.168.64.11   node1.cluster.local node1
+192.168.64.12   node2.cluster.local node2
+192.168.64.13   node3.cluster.local node3

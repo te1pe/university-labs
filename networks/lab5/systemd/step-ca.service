@@ -1,0 +1,17 @@
+[Unit]
+Description=step-ca Local Certificate Authority
+After=network.target
+
+[Service]
+User=step-ca
+Group=step-ca
+Environment=STEPPATH=/etc/step-ca
+ExecStart=/usr/bin/step-ca \
+    --password-file=/etc/step-ca/password.txt \
+    /etc/step-ca/config/ca.json
+Restart=always
+RestartSec=10
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=multi-user.target

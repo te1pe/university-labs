@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{fragments/fragments :: head('Запись создана — ОСТРИЁ')}"></head>
+<body>
+
+<header th:replace="~{fragments/fragments :: header('')}"></header>
+
+<div class="booking-wrap wrap">
+    <div class="bk-success">
+        <div class="bk-check">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
+        <h2>Вы записаны</h2>
+        <p class="lead">Ждём вас в назначенное время. Подтверждение придёт по телефону.</p>
+
+        <div class="bk-recap">
+            <div class="r-row">
+                <span class="r-k">Услуга</span>
+                <span class="r-v" th:text="${appt.service.name}">Услуга</span>
+            </div>
+            <div class="r-row">
+                <span class="r-k">Мастер</span>
+                <span class="r-v" th:text="${appt.master.name}">Мастер</span>
+            </div>
+            <div class="r-row">
+                <span class="r-k">Дата</span>
+                <span class="r-v" th:text="${dateLabel}">12 июн 2026</span>
+            </div>
+            <div class="r-row">
+                <span class="r-k">Время</span>
+                <span class="r-v" th:text="${time}">10:00</span>
+            </div>
+            <div class="r-row" th:if="${appt.comment != null and !appt.comment.isBlank()}">
+                <span class="r-k">Комментарий</span>
+                <span class="r-v" th:text="${appt.comment}"></span>
+            </div>
+            <div class="r-row">
+                <span class="r-k">Стоимость</span>
+                <span class="r-v">
+                    от <span th:text="${#numbers.formatInteger(appt.service.priceRub, 1, 'WHITESPACE')}">0</span> ₽
+                </span>
+            </div>
+        </div>
+
+        <div class="bk-success-actions">
+            <a class="btn" th:href="@{/cabinet}">Мои записи</a>
+            <a class="btn ghost" th:href="@{/}">На главную</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+# /etc/mysql/mariadb.conf.d/61-bind.cnf
+# IP подставляется на каждой ноде:
+#   IP=$(ip -4 -br addr show eth0 | awk '{print $3}' | cut -d/ -f1)
+
+[mysqld]
+bind-address = ${IP}

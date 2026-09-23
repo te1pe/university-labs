@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{fragments/fragments :: head('Запись — ОСТРИЁ')}"></head>
+<body>
+
+<header th:replace="~{fragments/fragments :: header('')}"></header>
+
+<div class="booking-wrap wrap">
+    <a class="bk-back" th:href="@{/services}">← К услугам</a>
+
+    <div class="bk-head">
+        <span class="eyebrow">Онлайн-запись</span>
+        <h1>Записаться</h1>
+    </div>
+
+    <form th:action="@{/booking}" th:object="${form}" method="post">
+
+        <!-- ШАГ 1: УСЛУГА -->
+        <div class="bk-step">
+            <div class="slbl"><span class="num">1</span><h3>Услуга</h3></div>
+            <div class="bk-select">
+                <select th:field="*{serviceId}" id="serviceSelect">
+                    <option th:each="s : ${services}"
+                            th:value="${s.id}"
+                            th:attr="data-price=${s.priceRub}"
+                            th:text="${s.name + ' — от ' + #numbers.formatInteger(s.priceRub, 1, 'WHITESPACE') + ' ₽'}">
+                        Услуга
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ШАГ 2: МАСТЕР -->
+        <div class="bk-step">
+            <div class="slbl"><span class="num">2</span><h3>Мастер</h3></div>
+            <input type="hidden" th:field="*{masterId}" id="masterId"/>
+            <div class="masters">
+                <div class="master" th:each="m : ${masters}"
+                     th:attr="data-mid=${m.id}">
+                    <div class="av" th:text="${m.initials}">А</div>
+                    <div>
+                        <div class="mn" th:text="${m.name}">Мастер</div>
+                        <div class="mr" th:text="${m.role}">Роль</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ШАГ 3: ДАТА И ВРЕМЯ -->
+        <div class="bk-step">
+            <div class="slbl"><span class="num">3</span><h3>Дата и время</h3></div>
+            <div class="bk-row">
+                <div>
+                    <div class="sub-lbl">Дата</div>
+                    <input class="inp" type="date" th:field="*{date}"
+                           th:value="${today}" th:min="${today}"/>
+                </div>
+                <div>
+                    <div class="sub-lbl">Время</div>
+                    <input type="hidden" th:field="*{time}" id="timeField"/>
+                    <div class="times">
+                        <button type="button" class="time" th:each="t : ${slots}"
+                                th:attr="data-t=${t}" th:text="${t}">10:00</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ШАГ 4: КОММЕНТАРИЙ -->
+        <div class="bk-step">
+            <div class="slbl"><span class="num">4</span><h3>Комментарий</h3></div>
+            <textarea class="inp" th:field="*{comment}"
+                      placeholder="Пожелания к стрижке, любимый стиль и т.д. (необязательно)"></textarea>
+        </div>
+
+        <!-- ПОДТВЕРЖДЕНИЕ -->
+        <div class="bk-confirm">
+            <div class="bk-total">
+                <div class="t-lbl">Стоимость</div>
+                <div class="t-val" id="bkPrice">—</div>
+            </div>
+            <button type="submit" class="btn lg">Подтвердить запись <span class="arr">→</span></button>
+        </div>
+
+        <p class="bk-err" th:if="${error}" th:text="${error}"></p>
+    </form>
+</div>
+
+<script th:inline="none">
+    var select = document.getElementById('serviceSelect');
+    var priceBox = document.getElementById('bkPrice');
+    var masterHidden = document.getElementById('masterId');
+    var timeHidden = document.getElementById('timeField');
+
+    function updatePrice() {
+        var opt = select.options[select.selectedIndex];
+        if (!opt) { priceBox.textContent = '—'; return; }
+        var p = opt.getAttribute('data-price');
+        priceBox.textContent = 'от ' + Number(p).toLocaleString('ru-RU') + ' ₽';
+    }
+    select.addEventListener('change', updatePrice);
+    updatePrice();
+
+    document.querySelectorAll('.master').forEach(function (card) {
+        card.addEventListener('click', function () {
+            document.querySelectorAll('.master').forEach(function (c) { c.classList.remove('sel'); });
+            card.classList.add('sel');
+            masterHidden.value = card.getAttribute('data-mid');
+        });
+        if (masterHidden.value && card.getAttribute('data-mid') === masterHidden.value) {
+            card.classList.add('sel');
+        }
+    });
+
+    document.querySelectorAll('.time').forEach(function (pill) {
+        pill.addEventListener('click', function () {
+            document.querySelectorAll('.time').forEach(function (p) { p.classList.remove('sel'); });
+            pill.classList.add('sel');
+            timeHidden.value = pill.getAttribute('data-t');
+        });
+        if (timeHidden.value && pill.getAttribute('data-t') === timeHidden.value) {
+            pill.classList.add('sel');
+        }
+    });
+</script>
+
+</body>
+</html>

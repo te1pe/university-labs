@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{fragments/fragments :: head('ОСТРИЁ')}"></head>
+<body>
+
+<header th:replace="~{fragments/fragments :: header('home')}"></header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="wrap">
+        <p class="eyebrow">Барбершоп · Новосибирск · с 2026</p>
+        <h1>Точность в каждом движении</h1>
+        <p class="sub">Классические мужские стрижки, бритьё опасной бритвой и уход
+            за бородой. Запишитесь онлайн за пару минут.</p>
+        <div class="cta-row">
+            <a class="btn" th:href="@{/booking}">Записаться <span class="arr">→</span></a>
+            <a class="btn ghost" th:href="@{/services}">Все услуги</a>
+        </div>
+    </div>
+</section>
+
+<!-- РАБОТЫ МАСТЕРОВ -->
+<section class="block ba-band">
+    <div class="wrap">
+        <div class="sec-head">
+            <div>
+                <span class="eyebrow">Портфолио</span>
+                <h2>Работы мастеров</h2>
+            </div>
+        </div>
+        <div class="works-grid">
+            <div class="work"><img th:src="@{/images/works/work-1.jpg}" alt="Работа 1"/></div>
+            <div class="work"><img th:src="@{/images/works/work-2.jpg}" alt="Работа 2"/></div>
+            <div class="work"><img th:src="@{/images/works/work-3.jpg}" alt="Работа 3"/></div>
+            <div class="work"><img th:src="@{/images/works/work-4.jpg}" alt="Работа 4"/></div>
+            <div class="work"><img th:src="@{/images/works/work-5.jpg}" alt="Работа 5"/></div>
+            <div class="work"><img th:src="@{/images/works/work-6.jpg}" alt="Работа 6"/></div>
+        </div>
+    </div>
+</section>
+
+<!-- УСЛУГИ (превью) -->
+<section class="block">
+    <div class="wrap">
+        <div class="sec-head">
+            <div>
+                <span class="eyebrow">Прайс</span>
+                <h2>Популярные услуги</h2>
+            </div>
+            <a class="svc-book" th:href="@{/services}">Полный список →</a>
+        </div>
+        <div class="svc-list">
+            <div class="svc" th:each="s : ${topServices}">
+                <div class="nm" th:text="${s.name}">Услуга</div>
+                <div class="desc" th:text="${s.description}">Описание</div>
+                <div class="price">
+                    от <span th:text="${#numbers.formatInteger(s.priceRub, 1, 'WHITESPACE')}">0</span>
+                    <small>₽</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/fragments :: contacts}"></footer>
+
+</body>
+</html>

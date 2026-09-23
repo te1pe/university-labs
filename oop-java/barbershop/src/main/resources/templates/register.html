@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{fragments/fragments :: head('Регистрация — ОСТРИЁ')}"></head>
+<body>
+
+<header th:replace="~{fragments/fragments :: header('')}"></header>
+
+<div class="auth-wrap wrap">
+    <div class="auth-card">
+        <span class="eyebrow">Новый клиент</span>
+        <h1>Регистрация</h1>
+
+        <form th:action="@{/register}" th:object="${form}" method="post">
+            <div class="auth-field">
+                <label>Имя и фамилия</label>
+                <input class="inp" type="text" th:field="*{fullName}" placeholder="Иван Соколов"/>
+                <div class="field-err" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
+            </div>
+            <div class="auth-field">
+                <label>E-mail</label>
+                <input class="inp" type="email" th:field="*{email}" placeholder="you@example.com"/>
+                <div class="field-err" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+            </div>
+            <div class="auth-field">
+                <label>Телефон</label>
+                <input class="inp" type="text" th:field="*{phone}" placeholder="+7 999 123-45-67"/>
+                <div class="field-err" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+            </div>
+            <div class="auth-field">
+                <label>Пароль</label>
+                <input class="inp" type="password" th:field="*{password}" placeholder="Минимум 6 символов"/>
+                <div class="field-err" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            </div>
+            <button type="submit" class="btn full lg">Создать аккаунт</button>
+        </form>
+
+        <div class="auth-foot">
+            Уже есть аккаунт? <a th:href="@{/login}">Войти</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
